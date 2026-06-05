@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worklog - Personal Work Tracker</title>
+    <link rel="stylesheet" href="styles.css?v=20260605185044">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">Worklog.</div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-view="entries">
+                    <span class="tab-icon">📋</span> Tasks
+                </button>
+                <button class="nav-tab" data-view="projects">
+                    <span class="tab-icon">📁</span> Projects
+                </button>
+                <button class="nav-tab" data-view="analytics">
+                    <span class="tab-icon">📊</span> Analytics
+                </button>
+                <button class="nav-tab" data-view="monday">
+                    <span class="tab-icon">📋</span> Monday.com
+                </button>
+                <button class="nav-tab" data-view="settings">
+                    <span class="tab-icon">⚙️</span> Settings
+                </button>
+            </nav>
+        </header>
+
+        <!-- Entries View -->
+        <div id="entries-view" class="view active">
+            <div class="hero-section">
+                <p class="subtitle">PERSONAL WORK LOG</p>
+                <h1 class="hero-title">Hello, <span class="highlight" id="userName">User</span> 👋</h1>
+                <p class="hero-description">Pick a project, log what you did, and watch pending hours update live.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" id="logWorkBtn">+ Log work</button>
+                    <button class="btn-secondary" id="exportBtn">📥 Export</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-label">TASKS</div>
+                    <div class="stat-value" id="totalEntries">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-label">HOURS CLAIMED</div>
+                    <div class="stat-value" id="totalClaimed">0.0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✓</div>
+                    <div class="stat-label">COMPLETED</div>
+                    <div class="stat-value" id="completedProjects">0</div>
+                </div>
+            </div>
+
+            <!-- Illustration (hidden for cleaner look) -->
+            <div style="display: none;">
+                <div class="hero-illustration">
+                    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Clipboard -->
+                        <rect x="120" y="40" width="160" height="200" rx="10" fill="#E8EEFF" stroke="#667EEA" stroke-width="3"/>
+                        <rect x="140" y="20" width="120" height="30" rx="15" fill="#667EEA"/>
+                        <circle cx="200" cy="35" r="8" fill="white"/>
+                        <!-- Checkmarks -->
+                        <circle cx="150" cy="90" r="12" fill="#48BB78" opacity="0.3"/>
+                        <path d="M145 90 L149 94 L155 86" stroke="#48BB78" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        <line x1="170" y1="90" x2="250" y2="90" stroke="#CBD5E0" stroke-width="3" stroke-linecap="round"/>
+                        
+                        <rect x="145" y="120" width="90" height="8" rx="4" fill="#E2E8F0"/>
+                        <rect x="145" y="150" width="90" height="8" rx="4" fill="#E2E8F0"/>
+                        
+                        <!-- Clock -->
+                        <circle cx="320" cy="200" r="50" fill="white" stroke="#667EEA" stroke-width="3"/>
+                        <circle cx="320" cy="200" r="5" fill="#667EEA"/>
+                        <line x1="320" y1="200" x2="320" y2="170" stroke="#667EEA" stroke-width="3" stroke-linecap="round"/>
+                        <line x1="320" y1="200" x2="340" y2="200" stroke="#667EEA" stroke-width="3" stroke-linecap="round"/>
+                        
+                        <!-- Plant -->
+                        <ellipse cx="80" cy="250" rx="30" ry="10" fill="#E8EEFF"/>
+                        <rect x="65" y="220" width="30" height="30" rx="5" fill="#667EEA" opacity="0.3"/>
+                        <path d="M80 220 Q70 200 75 180" stroke="#48BB78" stroke-width="3" fill="none"/>
+                        <path d="M80 220 Q90 200 85 180" stroke="#48BB78" stroke-width="3" fill="none"/>
+                        <ellipse cx="75" cy="180" rx="8" ry="12" fill="#48BB78" opacity="0.7"/>
+                        <ellipse cx="85" cy="180" rx="8" ry="12" fill="#48BB78" opacity="0.7"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="controls single-line-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchEntries" placeholder="Search account, code, notes...">
+                </div>
+                <select id="entriesTimePeriod" class="filter-select">
+                    <option value="all" selected>All Time</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="quarter">This Quarter</option>
+                    <option value="year">This Year</option>
+                </select>
+                <select id="statusFilter" class="filter-select">
+                    <option value="">All statuses</option>
+                    <option value="In progress">In progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Pending">Pending</option>
+                </select>
+                <select id="projectFilter" class="filter-select">
+                    <option value="">All projects</option>
+                </select>
+            </div>
+
+            <!-- Entries Table -->
+            <div class="table-container">
+                <table class="entries-table">
+                    <thead>
+                        <tr>
+                            <th>ACCOUNT / CODE</th>
+                            <th>TITLE</th>
+                            <th>START DATE</th>
+                            <th>END DATE</th>
+                            <th>HOURS</th>
+                            <th>STATUS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="entriesTableBody">
+                        <!-- Entries will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Projects View -->
+        <div id="projects-view" class="view">
+            <div class="hero-section">
+                <p class="subtitle">PROJECT LEDGER</p>
+                <h1 class="hero-title">Where the hours <span class="highlight">went.</span></h1>
+                <p class="hero-description">Claimed vs pending hours for every active project.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" id="addProjectBtn">+ Add Project</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="projects-stats-row">
+                <div class="project-stat-box">
+                    <div class="stat-box-icon">📁</div>
+                    <div class="stat-box-label">PROJECTS</div>
+                    <div class="stat-box-value" id="totalProjects">7</div>
+                    <div class="stat-box-subtitle">Active projects</div>
+                </div>
+                <div class="project-stat-box">
+                    <div class="stat-box-icon">⏱️</div>
+                    <div class="stat-box-label">TOTAL HRS</div>
+                    <div class="stat-box-value" id="totalHours">1205</div>
+                    <div class="stat-box-subtitle">Total allocated</div>
+                </div>
+                <div class="project-stat-box highlighted">
+                    <div class="stat-box-icon">🔥</div>
+                    <div class="stat-box-label">CLAIMED</div>
+                    <div class="stat-box-value" id="projectsClaimed">442.0</div>
+                    <div class="stat-box-subtitle">Hours claimed</div>
+                    <div class="stat-box-progress-text">36.7% of total hours</div>
+                    <div class="stat-box-progress-bar">
+                        <div class="stat-box-progress-fill" style="width: 36.7%"></div>
+                    </div>
+                </div>
+                <div class="project-stat-box">
+                    <div class="stat-box-icon">⚠️</div>
+                    <div class="stat-box-label">AVAILABLE</div>
+                    <div class="stat-box-value" id="projectsPending">763.0</div>
+                    <div class="stat-box-subtitle">Hours available</div>
+                </div>
+            </div>
+
+            <!-- Projects Search and Filters -->
+            <div class="controls single-line-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchProjects" placeholder="Search account, code, manager...">
+                </div>
+                <select id="projectsTimePeriod" class="filter-select">
+                    <option value="all" selected>All Time</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="quarter">This Quarter</option>
+                    <option value="year">This Year</option>
+                </select>
+                <div id="activeFilters" class="active-filters">
+                    <!-- Active filters will appear here -->
+                </div>
+                <button class="btn-add-filter" id="addFilterBtn">+ Add Filter</button>
+            </div>
+            
+            <!-- Filter Dropdown Menu -->
+            <div id="filterDropdown" class="filter-dropdown" style="display: none;">
+                <div class="filter-dropdown-header">
+                    <span>Add Filter</span>
+                    <button class="close-dropdown" id="closeFilterDropdown">✕</button>
+                </div>
+                <div class="filter-options">
+                    <button class="filter-option" data-filter="year">
+                        <span class="filter-icon">📅</span>
+                        <span>Year</span>
+                    </button>
+                    <button class="filter-option" data-filter="status">
+                        <span class="filter-icon">🔄</span>
+                        <span>Status</span>
+                    </button>
+                    <button class="filter-option" data-filter="manager">
+                        <span class="filter-icon">👤</span>
+                        <span>Manager</span>
+                    </button>
+                    <button class="filter-option" data-filter="account">
+                        <span class="filter-icon">🏢</span>
+                        <span>Account</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Projects Table -->
+            <div class="table-container">
+                <table class="projects-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>#</th>
+                            <th>ACCOUNT</th>
+                            <th>CLAIMED %</th>
+                            <th>STATUS</th>
+                            <th>TIME LEFT</th>
+                            <th>ALERTS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectsTableBody">
+                        <!-- Projects will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="projectsPrevBtn" disabled>← Previous</button>
+                <span class="pagination-info">
+                    Showing <span id="projectsShowingStart">1</span> to <span id="projectsShowingEnd">7</span> of <span id="projectsTotal">7</span> projects
+                </span>
+                <button class="pagination-btn" id="projectsNextBtn" disabled>Next →</button>
+            </div>
+        </div>
+
+        <!-- Analytics View -->
+        <div id="analytics-view" class="view">
+            <div class="hero-section">
+                <p class="subtitle">ANALYTICS DASHBOARD</p>
+                <h1 class="hero-title">Track your <span class="highlight">progress.</span></h1>
+                <p class="hero-description">Visualize hours claimed by time period and project.</p>
+                <div class="hero-actions">
+                    <button class="btn-secondary" id="refreshAnalyticsBtn">🔄 Refresh</button>
+                </div>
+            </div>
+
+            <!-- Message Box for Analytics -->
+            <div class="monday-message-box" id="analyticsMessageBox" style="display: none;">
+                <p class="monday-message-text" id="analyticsMessageText"></p>
+            </div>
+
+            <!-- Analytics Visualizations Section -->
+            <div class="analytics-section" id="analyticsVisualizations">
+                <!-- Analytics Charts Grid -->
+                <div class="charts-grid">
+                    <!-- Project Status Pie Chart -->
+                    <div class="chart-card">
+                        <h3 class="chart-title">Project Status Distribution</h3>
+                        <div class="pie-chart-container" id="analyticsStatusPieChart">
+                            <!-- Pie chart will be generated here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Project Hours Distribution -->
+                    <div class="chart-card">
+                        <h3 class="chart-title">Project Hours Distribution</h3>
+                        <div class="hours-distribution-chart" id="analyticsHoursDistributionChart">
+                            <!-- Hours distribution chart will be generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters Section -->
+            <div class="analytics-filters">
+                <div class="filter-group">
+                    <label class="filter-label">Time Period</label>
+                    <select id="timePeriod" class="filter-select">
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="custom-month">Select Month</option>
+                        <option value="quarter">This Quarter</option>
+                        <option value="year">This Year</option>
+                        <option value="all">All Time</option>
+                    </select>
+                </div>
+                <div class="filter-group" id="monthPickerGroup" style="display: none;">
+                    <label class="filter-label">Select Month</label>
+                    <select id="monthPicker" class="filter-select">
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Project</label>
+                    <select id="analyticsProjectFilter" class="filter-select">
+                        <option value="">All Projects</option>
+                    </select>
+                </div>
+                <button class="btn-clear-filters" id="clearAnalyticsFilters">Clear all ✕</button>
+            </div>
+
+            <!-- Analytics Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-label">PERIOD</div>
+                    <div class="stat-value" id="periodLabel">This Week</div>
+                </div>
+                <div class="stat-card highlight-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-label">HOURS CLAIMED</div>
+                    <div class="stat-value" id="periodHours">0.0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">TASKS</div>
+                    <div class="stat-value" id="periodEntries">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📁</div>
+                    <div class="stat-label">PROJECTS</div>
+                    <div class="stat-value" id="periodProjects">0</div>
+                </div>
+            </div>
+
+            <!-- Trend Chart Section -->
+            <div class="trend-chart-section" id="trendChartSection" style="display: none;">
+                <div class="chart-card">
+                    <h3 class="chart-title" id="trendChartTitle">Hours Trend</h3>
+                    <div class="chart-container" id="analyticsTrendChart">
+                        <!-- Trend chart will be generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Table -->
+            <div class="table-container">
+                <table class="analytics-table">
+                    <thead>
+                        <tr>
+                            <th>PROJECT</th>
+                            <th>TASKS</th>
+                            <th>HOURS</th>
+                            <th>AVG PER TASK</th>
+                            <th>% OF TOTAL</th>
+                            <th>TREND</th>
+                        </tr>
+                    </thead>
+                    <tbody id="analyticsTableBody">
+                        <!-- Analytics will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Settings View -->
+        <div id="settings-view" class="view">
+            <div class="hero-section-modern">
+                <div class="hero-content">
+                    <p class="subtitle-modern">SETTINGS & INTEGRATIONS</p>
+                    <h1 class="hero-title-modern">Manage your <span class="highlight-modern">data.</span></h1>
+                    <p class="hero-description-modern">Export, import, and sync your work tracker data.</p>
+                </div>
+            </div>
+
+            <!-- User Info -->
+            <div class="settings-section">
+                <h2>👤 User Information</h2>
+                <div class="integration-card">
+                    <div class="user-info-display">
+                        <p><strong>Name:</strong> <span id="settingsUserName">Not connected</span></p>
+                        <p><strong>Email:</strong> <span id="settingsUserEmail">Not connected</span></p>
+                        <p class="settings-description" style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            User information is fetched from your Monday.com account when connected.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="settings-section">
+                <h2>💾 Data Management</h2>
+                <p class="settings-description">Export your data to share the dashboard without personal information, or import data from a backup.</p>
+                
+                <div class="integration-card">
+                    <div class="data-actions">
+                        <div class="action-group">
+                            <h3>📤 Export Data</h3>
+                            <p>Download all your projects, entries, and settings as a JSON file.</p>
+                            <button class="btn-primary" id="exportDataBtn">Export All Data</button>
+                        </div>
+                        
+                        <div class="action-group">
+                            <h3>📥 Import Data</h3>
+                            <p>Load data from a previously exported JSON file.</p>
+                            <input type="file" id="importDataFile" accept=".json" style="display: none;">
+                            <button class="btn-secondary" id="importDataBtn">Import Data</button>
+                        </div>
+                        
+                        <div class="action-group">
+                            <h3>🗑️ Clear All Data</h3>
+                            <p>Remove all projects, entries, and settings. This cannot be undone!</p>
+                            <button class="btn-danger" id="clearDataBtn">Clear All Data</button>
+                        </div>
+                        
+                        <div class="action-group">
+                            <h3>🗑️ Clear Monday.com Data</h3>
+                            <p>Remove all imported Monday.com items from local storage.</p>
+                            <button class="btn-danger" id="clearMondayDataBtn">Clear Monday.com Data</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monday.com Integration -->
+            <div class="settings-section">
+                <h2>🔗 Monday.com Integration</h2>
+                <p class="settings-description">Connect your Monday.com account to sync work entries automatically.</p>
+                
+                <div class="integration-card">
+                    <div class="integration-status" id="mondayStatus">
+                        <span class="status-indicator" id="mondayIndicator">⚪</span>
+                        <span id="mondayStatusText">Not Connected</span>
+                    </div>
+                    
+                    <form id="mondayConfigForm" class="config-form">
+                        <div class="form-group">
+                            <label for="mondayApiKey">Monday.com API Token *</label>
+                            <input type="password" id="mondayApiKey" placeholder="Enter your Monday.com API token">
+                            <small>Get your API token from Monday.com → Profile → Admin → API</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mondayBoardId">Board ID *</label>
+                            <input type="text" id="mondayBoardId" placeholder="Enter board ID to sync with" required>
+                            <small>Required: Enter the Monday.com board ID. Find it in your board's URL.</small>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" id="testMondayConnection">Test Connection</button>
+                            <button type="submit" class="btn-primary">Save Configuration</button>
+                        </div>
+                    </form>
+                    
+                    <div id="mondayBoards" class="boards-list" style="display: none;">
+                        <h3>Available Boards:</h3>
+                        <div id="boardsList"></div>
+                    </div>
+                    
+                    <div id="boardSelector" class="board-selector" style="display: none;">
+                        <h3>📋 Select Board for Sync Operations</h3>
+                        <p class="board-selector-description">Choose which Monday.com board to sync with:</p>
+                        <select id="boardDropdown" class="board-dropdown">
+                            <option value="">-- Select a Board --</option>
+                        </select>
+                        <div id="selectedBoardInfo" class="selected-board-info" style="display: none;">
+                            <span class="info-label">Currently selected:</span>
+                            <span id="selectedBoardName" class="board-name-display"></span>
+                            <span id="selectedBoardId" class="board-id-display"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="sync-actions" id="mondaySyncActions" style="display: none;">
+                        <button class="btn-primary" id="importFromMonday">📥 Import FROM Monday.com</button>
+                        <button class="btn-secondary" id="disconnectMonday">Disconnect</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sync History -->
+            <div class="settings-section">
+                <h2>📊 Sync History</h2>
+                <div class="table-container">
+                    <table class="sync-history-table">
+                        <thead>
+                            <tr>
+                                <th>DATE</th>
+                                <th>ACTION</th>
+                                <th>TASKS</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="syncHistoryBody">
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    <p>No sync history yet</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Monday.com Details View -->
+        <div id="monday-view" class="view">
+            <div class="hero-section">
+                <p class="subtitle">MONDAY.COM INTEGRATION</p>
+                <h1 class="hero-title">Monday.com <span class="highlight">Items</span></h1>
+                <p class="hero-description">View and manage items imported from Monday.com</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" id="importMondayItems">📥 Import Items</button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="projects-stats-row">
+                <div class="project-stat-box">
+                    <div class="stat-box-icon">📊</div>
+                    <div class="stat-box-label">TOTAL ITEMS</div>
+                    <div class="stat-box-value" id="mondayTotalItems">0</div>
+                    <div class="stat-box-subtitle">Imported from Monday.com</div>
+                </div>
+                <div class="project-stat-box highlighted">
+                    <div class="stat-box-icon">📁</div>
+                    <div class="stat-box-label">ACTIVE PROJECTS</div>
+                    <div class="stat-box-value" id="mondayActiveProjects">0</div>
+                    <div class="stat-box-subtitle">Active projects</div>
+                </div>
+            </div>
+
+            <!-- Message Box -->
+            <div class="monday-message-box" id="mondayMessageBox" style="display: none;">
+                <p class="monday-message-text" id="mondayMessageText"></p>
+            </div>
+
+            <!-- Last Sync Info -->
+            <div class="last-sync-info" id="mondayLastSyncInfo" style="display: none;">
+                <span class="sync-icon">🔄</span>
+                <span class="sync-text">Last synced: <span id="mondayLastSyncTime">Never</span></span>
+            </div>
+
+            <!-- Search and Sort Controls -->
+            <div class="controls single-line-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchMondayItems" placeholder="Search project, work number, status...">
+                </div>
+                <select id="sortMondayItems" class="filter-select">
+                    <option value="status">Sort by Status (Active first)</option>
+                    <option value="project">Sort by Project Name</option>
+                    <option value="hours">Sort by Hours</option>
+                    <option value="startDate">Sort by Start Date</option>
+                    <option value="endDate">Sort by End Date</option>
+                </select>
+            </div>
+
+            <!-- Monday.com Table -->
+            <div class="table-container">
+                <table class="projects-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>#</th>
+                            <th>PROJECT</th>
+                            <th>HOURS</th>
+                            <th>STATUS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mondayItemsBody">
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                <p>No Monday.com items imported yet</p>
+                                <p class="empty-hint">Click "Import Items" to fetch items assigned to you</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="mondayPagination" style="display: none;">
+                <button class="pagination-btn" id="mondayPrevBtn" onclick="changeMondayPage(-1)">← Previous</button>
+                <span class="pagination-info" id="mondayPageInfo">Page 1 of 1</span>
+                <button class="pagination-btn" id="mondayNextBtn" onclick="changeMondayPage(1)">Next →</button>
+            </div>
+        </div>
+
+    <!-- Log Work Modal -->
+    <div id="logWorkModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Log Work Task</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="workForm">
+                <div class="form-group">
+                    <label for="projectSelect">Project *</label>
+                    <select id="projectSelect" required>
+                        <option value="">-- Select Project --</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Code</label>
+                        <input type="text" id="code" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Manager</label>
+                        <input type="text" id="manager" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Product</label>
+                        <input type="text" id="product" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <input type="text" id="projectStatus" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Total Hours</label>
+                        <input type="number" id="totalHoursField" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Already Claimed</label>
+                        <input type="number" id="alreadyClaimed" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Pending</label>
+                        <input type="number" id="pendingHours" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="workTitle">Work Title *</label>
+                    <input type="text" id="workTitle" required placeholder="e.g., Production support, Bug fixes">
+                </div>
+
+                <div class="form-group">
+                    <label for="workDescription">Work Description *</label>
+                    <textarea id="workDescription" rows="3" required placeholder="Describe what you worked on..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startDate">Start Date *</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="hoursToAdd">Total Hours *</label>
+                        <input type="number" id="hoursToAdd" min="0" step="0.5" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn-secondary" id="dailyHoursBtn" style="width: 100%;">
+                        📅 Enter Daily Hours Breakdown
+                    </button>
+                </div>
+
+                <div id="dailyHoursSection" class="daily-hours-section" style="display: none;">
+                    <h4>Daily Hours Breakdown</h4>
+                    <div id="dailyHoursInputs"></div>
+                    <div class="daily-hours-summary">
+                        <strong>Total: <span id="dailyHoursTotal">0</span> hours</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="entryStatus">Task Status *</label>
+                    <select id="entryStatus" required>
+                        <option value="In progress">In progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Additional Notes</label>
+                    <textarea id="comments" rows="2" placeholder="Add new comments..."></textarea>
+                </div>
+
+                <div id="commentsHistory" class="comments-history" style="display: none;">
+                    <h4>Previous Comments:</h4>
+                    <div id="previousComments"></div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="submitBtn">Add Entry</button>
+                </div>
+                <input type="hidden" id="editEntryId" value="">
+            </form>
+        </div>
+    </div>
+
+    <!-- Project Management Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="projectModalTitle">Add Project</h2>
+                <button class="close-btn" id="closeProjectModal">&times;</button>
+            </div>
+            <form id="projectForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectAccount">Account Name *</label>
+                        <input type="text" id="projectAccount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectCode">Code *</label>
+                        <input type="text" id="projectCode" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectProduct">Product *</label>
+                        <input type="text" id="projectProduct" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectVersion">Version</label>
+                        <input type="text" id="projectVersion">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectManager">Manager *</label>
+                    <input type="text" id="projectManager" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectStartDate">Start Date *</label>
+                        <input type="date" id="projectStartDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectEndDate">End Date</label>
+                        <input type="date" id="projectEndDate">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectStatus">Status *</label>
+                        <select id="projectStatus" required>
+                            <option value="Active">Active</option>
+                            <option value="Deactive">Deactive</option>
+                            <option value="Temporary">Temporary</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectTotalHours">Total Hours *</label>
+                        <input type="number" id="projectTotalHours" min="0" step="1" required>
+                    </div>
+                </div>
+
+                <div class="form-group" id="claimedHoursGroup" style="display: none;">
+                    <label for="projectClaimedHours">Claimed Hours (Manual Entry)</label>
+                    <input type="number" id="projectClaimedHours" min="0" step="0.5" value="0" placeholder="0.0">
+                    <small style="color: var(--warning-color);">⚠️ Optional: Manually enter claimed hours if you have existing work logged elsewhere. This will override calculated values from work entries.</small>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelProjectBtn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="submitProjectBtn">Add Project</button>
+                </div>
+                <input type="hidden" id="editProjectAccount" value="">
+            </form>
+        </div>
+    </div>
+
+    <script src="storage.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
