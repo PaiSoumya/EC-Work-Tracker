@@ -28,6 +28,9 @@
                     <span class="tab-icon">⚙️</span> Settings
                 </button>
             </nav>
+            <button class="btn-help" id="helpBtn" title="Help & Instructions">
+                <span class="help-icon">❓</span> Help
+            </button>
         </header>
 
         <!-- Entries View -->
@@ -452,13 +455,13 @@
                         <div class="form-group">
                             <label for="mondayApiKey">Monday.com API Token *</label>
                             <input type="password" id="mondayApiKey" placeholder="Enter your Monday.com API token">
-                            <small>Get your API token from Monday.com → Profile → Admin → API</small>
+                            <small>Get your API token from Monday.com → Profile → Developers → API (generate or copy existing token)</small>
                         </div>
                         
                         <div class="form-group">
                             <label for="mondayBoardId">Board ID *</label>
                             <input type="text" id="mondayBoardId" placeholder="Enter board ID to sync with" required>
-                            <small>Required: Enter the Monday.com board ID. Find it in your board's URL.</small>
+                            <small>Required: Take the board ID from your Monday.com board URL (the number in the URL)</small>
                         </div>
                         
                         <div class="form-actions">
@@ -612,7 +615,10 @@
             </div>
             <form id="workForm">
                 <div class="form-group">
-                    <label for="projectSelect">Project *</label>
+                    <label for="projectSelect">
+                        Project *
+                        <span class="info-icon" title="Select the project you worked on. Project details will auto-fill below.">ℹ️</span>
+                    </label>
                     <select id="projectSelect" required>
                         <option value="">-- Select Project --</option>
                     </select>
@@ -650,32 +656,50 @@
                         <input type="number" id="alreadyClaimed" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Pending</label>
+                        <label>
+                            Pending
+                            <span class="info-icon" title="Hours remaining in this project after your current entry">ℹ️</span>
+                        </label>
                         <input type="number" id="pendingHours" readonly>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="workTitle">Work Title *</label>
+                    <label for="workTitle">
+                        Work Title *
+                        <span class="info-icon" title="Brief description of your work (e.g., 'Bug fixes', 'Production support', 'Feature development')">ℹ️</span>
+                    </label>
                     <input type="text" id="workTitle" required placeholder="e.g., Production support, Bug fixes">
                 </div>
 
                 <div class="form-group">
-                    <label for="workDescription">Work Description *</label>
+                    <label for="workDescription">
+                        Work Description *
+                        <span class="info-icon" title="Detailed explanation of what you worked on. Be specific about tasks completed.">ℹ️</span>
+                    </label>
                     <textarea id="workDescription" rows="3" required placeholder="Describe what you worked on..."></textarea>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="startDate">Start Date *</label>
+                        <label for="startDate">
+                            Start Date *
+                            <span class="info-icon" title="The date you started working on this task">ℹ️</span>
+                        </label>
                         <input type="date" id="startDate" required>
                     </div>
                     <div class="form-group">
-                        <label for="endDate">End Date</label>
+                        <label for="endDate">
+                            End Date
+                            <span class="info-icon" title="The date you completed this task (optional)">ℹ️</span>
+                        </label>
                         <input type="date" id="endDate">
                     </div>
                     <div class="form-group">
-                        <label for="hoursToAdd">Total Hours *</label>
+                        <label for="hoursToAdd">
+                            Total Hours *
+                            <span class="info-icon" title="Total hours spent on this task. Use 0.5 for 30 minutes, 1.0 for 1 hour, etc.">ℹ️</span>
+                        </label>
                         <input type="number" id="hoursToAdd" min="0" step="0.5" required>
                     </div>
                 </div>
@@ -695,7 +719,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="entryStatus">Task Status *</label>
+                    <label for="entryStatus">
+                        Task Status *
+                        <span class="info-icon" title="In progress: Currently working | Completed: Task finished | Pending: Waiting to start">ℹ️</span>
+                    </label>
                     <select id="entryStatus" required>
                         <option value="In progress">In progress</option>
                         <option value="Completed">Completed</option>
@@ -704,7 +731,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="comments">Additional Notes</label>
+                    <label for="comments">
+                        Additional Notes
+                        <span class="info-icon" title="Optional comments or notes about this work entry">ℹ️</span>
+                    </label>
                     <textarea id="comments" rows="2" placeholder="Add new comments..."></textarea>
                 </div>
 
@@ -732,45 +762,69 @@
             <form id="projectForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="projectAccount">Account Name *</label>
+                        <label for="projectAccount">
+                            Account Name *
+                            <span class="info-icon" title="Client or company name for this project">ℹ️</span>
+                        </label>
                         <input type="text" id="projectAccount" required>
                     </div>
                     <div class="form-group">
-                        <label for="projectCode">Code *</label>
+                        <label for="projectCode">
+                            Code *
+                            <span class="info-icon" title="Project identifier or reference code">ℹ️</span>
+                        </label>
                         <input type="text" id="projectCode" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="projectProduct">Product *</label>
+                        <label for="projectProduct">
+                            Product *
+                            <span class="info-icon" title="Product or service name for this project">ℹ️</span>
+                        </label>
                         <input type="text" id="projectProduct" required>
                     </div>
                     <div class="form-group">
-                        <label for="projectVersion">Version</label>
+                        <label for="projectVersion">
+                            Version
+                            <span class="info-icon" title="Product version number (optional)">ℹ️</span>
+                        </label>
                         <input type="text" id="projectVersion">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="projectManager">Manager *</label>
+                    <label for="projectManager">
+                        Manager *
+                        <span class="info-icon" title="Name of the project manager or lead">ℹ️</span>
+                    </label>
                     <input type="text" id="projectManager" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="projectStartDate">Start Date *</label>
+                        <label for="projectStartDate">
+                            Start Date *
+                            <span class="info-icon" title="When this project begins">ℹ️</span>
+                        </label>
                         <input type="date" id="projectStartDate" required>
                     </div>
                     <div class="form-group">
-                        <label for="projectEndDate">End Date</label>
+                        <label for="projectEndDate">
+                            End Date
+                            <span class="info-icon" title="Expected project completion date (optional)">ℹ️</span>
+                        </label>
                         <input type="date" id="projectEndDate">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="projectStatus">Status *</label>
+                        <label for="projectStatus">
+                            Status *
+                            <span class="info-icon" title="Active: Currently working | Deactive: Paused/Closed | Temporary: Short-term project">ℹ️</span>
+                        </label>
                         <select id="projectStatus" required>
                             <option value="Active">Active</option>
                             <option value="Deactive">Deactive</option>
@@ -778,13 +832,19 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="projectTotalHours">Total Hours *</label>
+                        <label for="projectTotalHours">
+                            Total Hours *
+                            <span class="info-icon" title="Total hours allocated/budgeted for this project">ℹ️</span>
+                        </label>
                         <input type="number" id="projectTotalHours" min="0" step="1" required>
                     </div>
                 </div>
 
                 <div class="form-group" id="claimedHoursGroup" style="display: none;">
-                    <label for="projectClaimedHours">Claimed Hours (Manual Entry)</label>
+                    <label for="projectClaimedHours">
+                        Claimed Hours (Manual Entry)
+                        <span class="info-icon" title="Use this only if you have existing work hours logged elsewhere that you want to include">ℹ️</span>
+                    </label>
                     <input type="number" id="projectClaimedHours" min="0" step="0.5" value="0" placeholder="0.0">
                     <small style="color: var(--warning-color);">⚠️ Optional: Manually enter claimed hours if you have existing work logged elsewhere. This will override calculated values from work entries.</small>
                 </div>
@@ -795,6 +855,271 @@
                 </div>
                 <input type="hidden" id="editProjectAccount" value="">
             </form>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content help-modal-content">
+            <div class="modal-header">
+                <h2>📚 How to Use Worklog</h2>
+                <button class="close-btn" id="closeHelpModal">&times;</button>
+            </div>
+            <div class="help-content">
+                <div class="help-tabs">
+                    <button class="help-tab active" data-help="tasks">📋 Tasks</button>
+                    <button class="help-tab" data-help="projects">📁 Projects</button>
+                    <button class="help-tab" data-help="analytics">📊 Analytics</button>
+                    <button class="help-tab" data-help="monday">📋 Monday.com</button>
+                    <button class="help-tab" data-help="settings">⚙️ Settings</button>
+                </div>
+                
+                <!-- Tasks Help -->
+                <div id="help-tasks" class="help-section active">
+                    <h3>📋 Tasks Tab - Log Your Work</h3>
+                    <div class="help-steps">
+                        <div class="help-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h4>Click "+ Log work" Button</h4>
+                                <p>Opens the work entry form to log your tasks and hours.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h4>Select a Project</h4>
+                                <p>Choose from your existing projects. The form will auto-fill project details like code, manager, and available hours.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h4>Enter Work Details</h4>
+                                <p><strong>Work Title:</strong> Brief description (e.g., "Bug fixes", "Production support")</p>
+                                <p><strong>Work Description:</strong> Detailed explanation of what you worked on</p>
+                                <p><strong>Start Date:</strong> When you started this work</p>
+                                <p><strong>End Date:</strong> When you completed (optional)</p>
+                                <p><strong>Total Hours:</strong> Hours spent on this task</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <h4>Daily Hours Breakdown (Optional)</h4>
+                                <p>Click "Enter Daily Hours Breakdown" to split hours across multiple days. Useful for tasks spanning several days.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">5</span>
+                            <div class="step-content">
+                                <h4>Set Task Status</h4>
+                                <p><strong>In progress:</strong> Currently working on it</p>
+                                <p><strong>Completed:</strong> Task is finished</p>
+                                <p><strong>Pending:</strong> Waiting to start or blocked</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">6</span>
+                            <div class="step-content">
+                                <h4>Filter & Search</h4>
+                                <p>Use the search box and filters to find specific tasks by account, code, status, or time period.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Help -->
+                <div id="help-projects" class="help-section">
+                    <h3>📁 Projects Tab - Manage Projects</h3>
+                    <div class="help-steps">
+                        <div class="help-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h4>Click "+ Add Project" Button</h4>
+                                <p>Opens the project creation form.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h4>Enter Project Information</h4>
+                                <p><strong>Account Name:</strong> Client or company name</p>
+                                <p><strong>Code:</strong> Project identifier or code</p>
+                                <p><strong>Product:</strong> Product or service name</p>
+                                <p><strong>Version:</strong> Product version (optional)</p>
+                                <p><strong>Manager:</strong> Project manager name</p>
+                                <p><strong>Start Date:</strong> Project start date</p>
+                                <p><strong>End Date:</strong> Expected completion date (optional)</p>
+                                <p><strong>Status:</strong> Active, Deactive, or Temporary</p>
+                                <p><strong>Total Hours:</strong> Total hours allocated for this project</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h4>View Project Details</h4>
+                                <p>Click the expand icon (▼) to see detailed breakdown of hours claimed, pending hours, and all work entries for that project.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <h4>Filter Projects</h4>
+                                <p>Use "+ Add Filter" to filter by Year, Status, Manager, or Account. Search box helps find specific projects quickly.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">5</span>
+                            <div class="step-content">
+                                <h4>Understanding Alerts</h4>
+                                <p><strong>🔥 Overdue:</strong> Project end date has passed</p>
+                                <p><strong>⚠️ High Usage:</strong> Over 80% hours claimed</p>
+                                <p><strong>⏰ Ending Soon:</strong> Less than 7 days remaining</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Help -->
+                <div id="help-analytics" class="help-section">
+                    <h3>📊 Analytics Tab - Track Progress</h3>
+                    <div class="help-steps">
+                        <div class="help-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h4>Select Time Period</h4>
+                                <p><strong>This Week:</strong> Current week's data</p>
+                                <p><strong>This Month:</strong> Current month's data</p>
+                                <p><strong>Select Month:</strong> Choose any specific month</p>
+                                <p><strong>This Quarter:</strong> Current quarter (3 months)</p>
+                                <p><strong>This Year:</strong> Current year's data</p>
+                                <p><strong>All Time:</strong> All your work history</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h4>View Charts</h4>
+                                <p><strong>Weekly Hours Claimed:</strong> Bar chart showing hours per week</p>
+                                <p><strong>Project Status Distribution:</strong> Pie chart of project statuses</p>
+                                <p><strong>Project Hours Distribution:</strong> Bar chart comparing hours across projects</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h4>Filter by Project</h4>
+                                <p>Select a specific project to see analytics for that project only.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <h4>Understand the Stats</h4>
+                                <p><strong>Period:</strong> Selected time range</p>
+                                <p><strong>Hours Claimed:</strong> Total hours logged in period</p>
+                                <p><strong>Tasks:</strong> Number of work entries</p>
+                                <p><strong>Projects:</strong> Total active projects</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monday.com Help -->
+                <div id="help-monday" class="help-section">
+                    <h3>📋 Monday.com Integration</h3>
+                    <div class="help-steps">
+                        <div class="help-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h4>Connect Monday.com (Settings Tab)</h4>
+                                <p>Go to Settings tab and enter your Monday.com API token and Board ID.</p>
+                                <p><strong>Important:</strong> After testing the connection, click "Save Configuration" to enable imports.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h4>Import Items</h4>
+                                <p>Click "📥 Import Items" to fetch tasks assigned to you from Monday.com.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h4>View Imported Items</h4>
+                                <p>See all your Monday.com items with their status, hours, and project details.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <h4>Add to Projects</h4>
+                                <p>Click "Add to Project" to convert a Monday.com item into a local project.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Help -->
+                <div id="help-settings" class="help-section">
+                    <h3>⚙️ Settings - Manage Data</h3>
+                    <div class="help-steps">
+                        <div class="help-step">
+                            <span class="step-number">1</span>
+                            <div class="step-content">
+                                <h4>Export Data</h4>
+                                <p>Download all your projects and entries as a JSON file for backup or sharing.</p>
+                                <p><strong>What gets exported:</strong></p>
+                                <ul>
+                                    <li>All projects with their details (account, code, manager, hours, etc.)</li>
+                                    <li>All work entries/tasks with descriptions and hours</li>
+                                    <li>Monday.com configuration (API token and Board ID)</li>
+                                    <li>Imported Monday.com items</li>
+                                </ul>
+                                <p><strong>Use cases:</strong></p>
+                                <ul>
+                                    <li>Backup your data before clearing browser cache</li>
+                                    <li>Share your work tracker setup with team members</li>
+                                    <li>Transfer data to another computer or browser</li>
+                                    <li>Keep historical records of your work</li>
+                                </ul>
+                                <p><strong>Note:</strong> The exported file is in JSON format and can be imported back using the "Import Data" feature.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">2</span>
+                            <div class="step-content">
+                                <h4>Import Data</h4>
+                                <p>Load previously exported data from a JSON file.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">3</span>
+                            <div class="step-content">
+                                <h4>Monday.com Integration</h4>
+                                <p><strong>API Token:</strong> Get from Monday.com → Profile → Developers → API (either generate a new token or copy existing one)</p>
+                                <p><strong>Board ID:</strong> Take the board ID from your Monday.com board URL (the number in the URL)</p>
+                                <p><strong>Important:</strong> Click "Test Connection" to verify your credentials, then click "Save Configuration" to enable the import feature.</p>
+                            </div>
+                        </div>
+                        <div class="help-step">
+                            <span class="step-number">4</span>
+                            <div class="step-content">
+                                <h4>Clear Data</h4>
+                                <p><strong>Clear All Data:</strong> Removes all projects and entries (cannot be undone!)</p>
+                                <p><strong>Clear Monday.com Data:</strong> Removes only imported Monday.com items</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-footer">
+                    <p><strong>💡 Tip:</strong> Your data is stored locally in your browser. Each user has their own separate data.</p>
+                    <p><strong>🔒 Privacy:</strong> No data is sent to any server. Everything stays on your computer.</p>
+                </div>
+            </div>
         </div>
     </div>
 
