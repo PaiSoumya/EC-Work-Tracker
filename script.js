@@ -94,6 +94,48 @@ function populateProjectDropdowns() {
 
 // Event listeners
 function setupEventListeners() {
+    // Help modal controls
+    const helpBtn = document.getElementById('helpBtn');
+    const helpModal = document.getElementById('helpModal');
+    const closeHelpModal = document.getElementById('closeHelpModal');
+    
+    if (helpBtn) {
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+    }
+    
+    if (closeHelpModal) {
+        closeHelpModal.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+    }
+    
+    // Close help modal on outside click
+    if (helpModal) {
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+            }
+        });
+    }
+    
+    // Help tab switching
+    const helpTabs = document.querySelectorAll('.help-tab');
+    helpTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetHelp = tab.getAttribute('data-help');
+            
+            // Remove active class from all tabs and sections
+            helpTabs.forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.help-section').forEach(s => s.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding section
+            tab.classList.add('active');
+            document.getElementById(`help-${targetHelp}`).classList.add('active');
+        });
+    });
+    
     // Modal controls
     document.getElementById('logWorkBtn').addEventListener('click', openModal);
     document.getElementById('closeModal').addEventListener('click', closeModal);
