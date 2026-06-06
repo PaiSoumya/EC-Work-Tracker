@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worklog Setup Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667EEA;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        .step {
+            background: #f7fafc;
+            border-left: 4px solid #667EEA;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+            float: left;
+        }
+
+        .step-content {
+            margin-left: 55px;
+        }
+
+        .step h2 {
+            color: #2d3748;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .step p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #48bb78;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        .warning {
+            background: #fff5f5;
+            border-left: 4px solid #f56565;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .warning strong {
+            color: #c53030;
+        }
+
+        .success {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .success strong {
+            color: #2f855a;
+        }
+
+        .info {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .info strong {
+            color: #2c5282;
+        }
+
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .method {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+        }
+
+        .method h3 {
+            color: #667EEA;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        ul {
+            margin-left: 20px;
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Worklog Setup Guide</h1>
+        <p class="subtitle">Run Worklog locally on your computer - 100% private and secure</p>
+
+        <div class="success">
+            <strong>✅ Why Run Locally?</strong>
+            <ul>
+                <li>Your data never leaves your computer</li>
+                <li>No internet connection required after download</li>
+                <li>Complete privacy - no external servers</li>
+                <li>Full control over your data</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">1</span>
+            <div class="step-content">
+                <h2>Download the Application</h2>
+                <p>Download all files from the GitHub repository:</p>
+                <a href="https://github.com/PaiSoumya/EC-Work-Tracker/archive/refs/heads/main.zip" class="button">📥 Download ZIP</a>
+                <p style="margin-top: 15px;">Or clone using Git:</p>
+                <div class="code-block">git clone https://github.com/PaiSoumya/EC-Work-Tracker.git</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <div class="step-content">
+                <h2>Extract Files</h2>
+                <p>Extract the ZIP file to a folder on your computer, for example:</p>
+                <ul>
+                    <li><strong>Windows:</strong> C:\Users\YourName\Documents\Worklog</li>
+                    <li><strong>Mac:</strong> ~/Documents/Worklog</li>
+                    <li><strong>Linux:</strong> ~/Documents/Worklog</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <div class="step-content">
+                <h2>Choose Your Setup Method</h2>
+                <p>Pick the method that works best for you:</p>
+
+                <div class="method">
+                    <h3>🌐 Method 1: Direct Browser (Simplest)</h3>
+                    <p><strong>Best for:</strong> Quick start, no technical setup</p>
+                    <ol>
+                        <li>Navigate to the extracted folder</li>
+                        <li>Double-click <code>index.html</code></li>
+                        <li>The app opens in your default browser</li>
+                    </ol>
+                    <div class="warning">
+                        <strong>⚠️ Note:</strong> Some features (like file import) may not work due to browser security restrictions. Use Method 2 or 3 for full functionality.
+                    </div>
+                </div>
+
+                <div class="method">
+                    <h3>🐍 Method 2: Python Server (Recommended)</h3>
+                    <p><strong>Best for:</strong> Full functionality, easy setup</p>
+                    <p><strong>Requirements:</strong> Python installed on your computer</p>
+                    
+                    <p><strong>For Python 3:</strong></p>
+                    <div class="code-block">
+# Navigate to the folder<br>
+cd path/to/Worklog<br>
+<br>
+# Start server<br>
+python -m http.server 8000
+                    </div>
+
+                    <p><strong>For Python 2:</strong></p>
+                    <div class="code-block">
+# Navigate to the folder<br>
+cd path/to/Worklog<br>
+<br>
+# Start server<br>
+python -m SimpleHTTPServer 8000
+                    </div>
+
+                    <p>Then open your browser and go to: <code>http://localhost:8000</code></p>
+                </div>
+
+                <div class="method">
+                    <h3>📦 Method 3: Node.js Server</h3>
+                    <p><strong>Best for:</strong> Node.js users</p>
+                    <p><strong>Requirements:</strong> Node.js installed</p>
+                    
+                    <div class="code-block">
+# Navigate to the folder<br>
+cd path/to/Worklog<br>
+<br>
+# Install http-server globally (one time only)<br>
+npm install -g http-server<br>
+<br>
+# Start server<br>
+http-server -p 8000
+                    </div>
+
+                    <p>Then open your browser and go to: <code>http://localhost:8000</code></p>
+                </div>
+
+                <div class="method">
+                    <h3>🪟 Method 4: Windows Batch File (Windows Only)</h3>
+                    <p><strong>Best for:</strong> Windows users who want one-click start</p>
+                    <p>A <code>START_SERVER.bat</code> file is included. Just double-click it to start!</p>
+                    <div class="info">
+                        <strong>💡 Tip:</strong> Create a desktop shortcut to START_SERVER.bat for easy access.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <div class="step-content">
+                <h2>Start Using Worklog</h2>
+                <p>Once the server is running:</p>
+                <ol>
+                    <li>Open your browser</li>
+                    <li>Go to <code>http://localhost:8000</code></li>
+                    <li>Click the <strong>❓ Help</strong> button for detailed instructions</li>
+                    <li>Start tracking your work!</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <div class="step-content">
+                <h2>Stopping the Server</h2>
+                <p>When you're done:</p>
+                <ul>
+                    <li><strong>Python/Node.js:</strong> Press <code>Ctrl+C</code> in the terminal</li>
+                    <li><strong>Windows Batch:</strong> Close the command window</li>
+                    <li><strong>Direct Browser:</strong> Just close the browser tab</li>
+                </ul>
+                <div class="info">
+                    <strong>💡 Your Data:</strong> All your data is saved in your browser's localStorage. It persists even after closing the browser or stopping the server.
+                </div>
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>🔒 Security & Privacy:</strong>
+            <ul>
+                <li>All data is stored locally in your browser</li>
+                <li>No data is sent to any external server</li>
+                <li>Your Monday.com API token is stored only in your browser</li>
+                <li>Backup your data regularly using the Export feature</li>
+            </ul>
+        </div>
+
+        <div class="success">
+            <strong>✨ Pro Tips:</strong>
+            <ul>
+                <li>Bookmark <code>http://localhost:8000</code> for quick access</li>
+                <li>Export your data regularly for backup</li>
+                <li>Use the Help system (❓ button) for detailed feature guides</li>
+                <li>Keep the server running while using the app</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <strong>❓ Need Help?</strong>
+            <ul>
+                <li>Check the built-in Help system (❓ Help button in the app)</li>
+                <li>Read the README.md file in the project folder</li>
+                <li>Open an issue on GitHub</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ for privacy-conscious users</p>
+            <p style="margin-top: 10px;">
+                <a href="https://github.com/PaiSoumya/EC-Work-Tracker" class="button">📂 View on GitHub</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
